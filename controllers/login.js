@@ -1,6 +1,7 @@
 const OrganizationModel = require('../models/Organization.model');
 const UserModel = require('../models/User.model');
 const bcrypt = require('bcrypt');
+const { getToken, user } = require('../middleware/Auth');
 
 exports.getLogin = (req, res, next) => {
     res.status(200).json({
@@ -16,7 +17,7 @@ const Validator = async (model, email, password, res) => {
         }
         const valid = await bcrypt.compare(password, curUser.password);
         if(valid) {
-            return {code: 200};
+            return {code: 200, curUser};
         }
         return {code: 402};
     } catch (err) {
@@ -32,7 +33,6 @@ exports.postLogin = async (req, res) => {
     }else{
         result = await Validator(UserModel, email, password, res);
     }
-    console.log(result);
     switch(result.code)
     {
         case 402:
@@ -40,8 +40,11 @@ exports.postLogin = async (req, res) => {
                 msg: 'Invalid cerdentials'
             });
         case 200:
+            const token = await getToken(result.curUser, isOrg ? true: false);
+            console.log({token})
             return res.status(200).json({
-                msg: 'success'
+                msg: 'success',
+                token
             })
         case 500:
             return res.status(500).json({

@@ -2,8 +2,7 @@
     "PORT": 5000,
     "CONNECTION_URL": "mongodb+srv://anto22998:abcd@1234@code-book-yeeua.mongodb.net/test?retryWrites=true&w=majority",
     "LOCAL_URL": "mongodb://localhost/code-book",
-    "CLIENT_ID": "118507393882-tdtt5e1t9keblt0r0fok5j7fems5odr6.apps.googleusercontent.com",
-    "CLIENT_SECRET": "fmsdkeQJLqz4Y_n4PxeEbu7x",
+    "SECRET": "fmsdkeQJLqz4Y_n4PxeEbu7x",
     "SALT": 12
 }
 
