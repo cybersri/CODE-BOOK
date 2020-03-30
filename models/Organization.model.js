@@ -33,6 +33,10 @@ const OrganizationSchema = new mongoose.Schema({
     updatedon: {
         type: Date,
         default: new Date()
+    },
+    status:{
+        type: Number,
+        default: 0
     }
 });
 

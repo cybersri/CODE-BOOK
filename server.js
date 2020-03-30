@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(require('./router/orgSignup'));
 app.use(require('./router/login'));
 app.use(require('./router/signup'));
+app.use(require('./router/mail'));
 
 app.get('/home', user, (req, res)=> {
     res.json({

@@ -2,6 +2,7 @@ const OrganizationModel = require('../models/Organization.model');
 const bcrypt = require('bcrypt');
 const config = require('config');
 const { validationResult } = require('express-validator')
+const { sendVerificationEmail } = require('../service/mail/verificationEmail/sendVerificationEmail')
 
 exports.getOrgSignup = (req, res, next) => {   
     res.status(200).json({
@@ -18,6 +19,7 @@ exports.postOrgSignup = async (req, res, next) => {
     }
     const { name, email, address, phone, password } = req.body;
     console.log(name, email)
+    req.body.status = 0
     try {
         const salt = await bcrypt.genSalt(config.get('SALT'));
         const hasedPassword = await bcrypt.hash(password, salt);
@@ -28,6 +30,7 @@ exports.postOrgSignup = async (req, res, next) => {
         res.status(201).json({
             msg: 'Organization created'
         });
+
     } catch (err) {
         res.status(500).json({
             msg: 'Internal server problem',

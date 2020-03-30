@@ -42,6 +42,9 @@ exports.user = async (req, res, next) =>{
                     })
                 }
             }
+            else{
+                // code for authorize non organization goes here
+            }
         }
         catch(err){
             return res.status(401).json({

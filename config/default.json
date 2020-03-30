@@ -1,8 +1,13 @@
 {
+    "PRODUCT":"code-book",
+    "DETAILS":"coimbatore tamilnadu",
+    "HOST":"http://localhost",
     "PORT": 5000,
     "CONNECTION_URL": "mongodb+srv://anto22998:abcd@1234@code-book-yeeua.mongodb.net/test?retryWrites=true&w=majority",
     "LOCAL_URL": "mongodb://localhost/code-book",
     "SECRET": "fmsdkeQJLqz4Y_n4PxeEbu7x",
-    "SALT": 12
+    "SALT": 12,
+    "MAIL_ID":"codebook.cb@gmail.com",
+    "MAIL_PASSWORD":"HriMxaGQ6rQbad7"
 }
 
