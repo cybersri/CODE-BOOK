@@ -14,6 +14,7 @@ exports.sendVerificationEmail = async (client, isOrg) => {
             const token = await jwt.sign({
                     email: client.email,
                     isOrg: isOrg,
+                    action: "verify"
                 },
                 secret + client.status, {
                     expiresIn: '1h'
