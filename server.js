@@ -12,5 +12,6 @@ app.use(express.json());
 
 app.use(require('./router/orgSignup'));
 app.use(require('./router/login'));
+app.use(require('./router/signup'));
 
 app.listen(process.env.PORT || PORT, ()=> console.log(`Server running in PORT : ${PORT}`))
