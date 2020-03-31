@@ -24,7 +24,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         minlength: 7,
-        required: true
+        required: true,
+        select:false
     },
     createdon: {
         type: Date,
@@ -38,6 +39,11 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    organization:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'organization',
+        required:true
+    }
 });
 
 module.exports = mongoose.model('user', userSchema);

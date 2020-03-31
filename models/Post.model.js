@@ -26,7 +26,12 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    userID: {
+    organization:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'organization',
+        required:true
+    },
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true

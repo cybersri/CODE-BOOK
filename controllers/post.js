@@ -24,12 +24,10 @@ exports.getPost = async (req, res, next) => {
 
 exports.postPost = async (req, res, next) => {
     const { title, description, code } = req.body;
+    console.log(req.user)
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const userID = jwt.decode(token).id;
-        console.log(userID);
         const newPost = new postModel({
-            title, description, code, userID
+            title, description, code, user:req.user._id, organization:req.user.organization
         });
         await newPost.save();
         res.status(200).json({

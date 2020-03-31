@@ -24,7 +24,8 @@ exports.user = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1]
     const { email, isOrg } = jwt.decode(token)
-    const curUser = await isOrg ? OrganizationModel.findOne({ email }) : UserModel.findOne({ email });
+    const curUser = isOrg ? await OrganizationModel.findOne({ email:email }).select('+password') : await (await UserModel.findOne({ email }).select('+password'));
+
     if (!curUser) {
       return res.status(401).json({
         msg: 'Un Authorized'
@@ -34,10 +35,12 @@ exports.user = async (req, res, next) => {
       jwt.verify(token, secret + curUser.password, (err, decoded) => {
         if (err) {
           return res.status(401).json({
-            msg: 'Un Authorized'
+            msg: 'Un Authorized',err
           })
         }
         else {
+            curUser.password = undefined
+            req.user = curUser;
           next();
         }
       })
@@ -45,7 +48,7 @@ exports.user = async (req, res, next) => {
   }
   catch (err) {
     return res.status(401).json({
-      msg: 'Un Authorized'
+      msg: 'Un Authorized',err
     })
   }
 }

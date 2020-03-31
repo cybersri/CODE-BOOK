@@ -11,7 +11,8 @@ exports.getLogin = (req, res, next) => {
 
 const Validator = async (model, email, password, res) => {
     try {
-        const curUser = await model.findOne({email});
+        const curUser = await model.findOne({email}).select('+password');
+        // console.log(curUser)
         if(!curUser) {
             return {code: 402};
         }
@@ -48,7 +49,7 @@ exports.postLogin = async (req, res) => {
             })
         case 500:
             return res.status(500).json({
-                msg: result.code
+                msg: result.msg
             });
         default:
             return res.status(400).json({

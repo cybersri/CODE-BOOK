@@ -24,7 +24,8 @@ const OrganizationSchema = new mongoose.Schema({
     password: {
         type: String,
         minlength: 7,
-        required: true
+        required: true,
+        select:false
     },
     createdon: {
         type: Date,

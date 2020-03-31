@@ -16,6 +16,7 @@ dotenv.config();
 app.use(require('./router/orgSignup'));
 app.use(require('./router/login'));
 app.use(require('./router/signup'));
+app.use(user)
 app.use(require('./router/newsFeed'));
 app.use(require('./router/mail'));
 app.use(require('./router/post'));
