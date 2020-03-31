@@ -27,7 +27,7 @@ exports.postPost = async (req, res, next) => {
     console.log(req.user)
     try {
         const newPost = new postModel({
-            title, description, code, user:req.user._id, organization:req.user.organization
+            title, description, code, user: req.user._id, organization: req.user.organization
         });
         await newPost.save();
         res.status(200).json({
@@ -64,6 +64,22 @@ exports.patchPost = async (req, res, next) => {
     } catch (err) {
         res.status(500).json({
             msg: 'Internal problem',
+            err: err.message
+        })
+    }
+}
+
+exports.deletePost = async (req, res) => {
+    const { id } = req.body;
+    try {
+        const response = await postModel.findByIdAndDelete(id);
+        res.status(202).json({
+            msg: 'post deleted',
+            response
+        });
+    } catch (err) {
+        res.status(500).json({
+            msg: 'internal problem',
             err: err.message
         })
     }
