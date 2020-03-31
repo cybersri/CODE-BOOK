@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const secret = config.get('SECRET');
 const OrganizationModel = require('../models/Organization.model');
+const UserModel = require('../models/User.model');
 exports.getToken = async (client, isOrg) => {
   try {
     const token = await jwt.sign(
