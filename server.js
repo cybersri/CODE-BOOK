@@ -21,6 +21,7 @@ app.use(require('./router/newsFeed'));
 app.use(require('./router/mail'));
 app.use(require('./router/post'));
 app.use(require('./router/user'));
+app.use(require('./router/profile'));
 
 app.listen(process.env.PORT || PORT, () =>
   console.log(`Server running in PORT : ${PORT}`)

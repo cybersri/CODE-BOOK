@@ -37,4 +37,4 @@ exports.postOrgSignup = async (req, res, next) => {
             err: err.message
         });
     }
-}
+};
