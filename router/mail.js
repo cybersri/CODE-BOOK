@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-router.get('/org/verifymail/:token', (req, res) => {
-    console.log(req.params)
+router.get('/verifymail/:token', (req, res) => {
+    res.json(req.params)
 })
 
 module.exports = router;
