@@ -1,6 +1,4 @@
 const postModel = require('../models/Post.model');
-const userModel = require('../models/User.model');
-const jwt = require('jsonwebtoken')
 
 exports.getPost = async (req, res, next) => {
     const id = req.params.id;
