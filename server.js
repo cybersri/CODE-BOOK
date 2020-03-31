@@ -18,12 +18,8 @@ app.use(require('./router/login'));
 app.use(require('./router/signup'));
 app.use(require('./router/newsFeed'));
 app.use(require('./router/mail'));
-
-app.get('/home', user, (req, res) => {
-  res.json({
-    msg: 'success'
-  });
-});
+app.use(require('./router/post'));
+app.use(require('./router/user'));
 
 app.listen(process.env.PORT || PORT, () =>
   console.log(`Server running in PORT : ${PORT}`)

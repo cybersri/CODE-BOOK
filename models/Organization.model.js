@@ -34,7 +34,7 @@ const OrganizationSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    status:{
+    status: {
         type: Number,
         default: 0
     }

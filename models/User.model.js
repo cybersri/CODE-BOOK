@@ -33,7 +33,11 @@ const userSchema = new mongoose.Schema({
     updatedon: {
         type: Date,
         default: new Date()
-    }
+    },
+    status: {
+        type: Number,
+        default: 0
+    },
 });
 
 module.exports = mongoose.model('user', userSchema);

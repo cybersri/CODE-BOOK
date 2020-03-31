@@ -9,28 +9,22 @@ const {
 const url = config.get('HOST') + ':' + config.get('PORT')
 
 exports.sendVerificationEmail = async (client, isOrg) => {
-    if (isOrg) {
-        try {
-            const token = await jwt.sign({
-                    email: client.email,
-                    isOrg: isOrg,
-                    action: "verify"
-                },
-                secret + client.status, {
-                    expiresIn: '1h'
-                });
+    try {
+        const token = await jwt.sign({
+            email: client.email,
+            isOrg: isOrg,
+            action: "verify"
+        },
+            secret + client.status, {
+            expiresIn: '1h'
+        });
 
-            return await verificationEmail(
-                client.name,
-                client.email,
-                url + '/org/verifymail/' + token);
-        } catch (err) {
-            return err;
-        }
-    } else {
-
-        // code for getting verify email for non organization accounnt goes here
-
+        return await verificationEmail(
+            client.name,
+            client.email,
+            url + '/verifymail/' + token);
+    } catch (err) {
+        return err;
     }
 
 
