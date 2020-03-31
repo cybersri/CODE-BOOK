@@ -5,10 +5,15 @@ const jwt = require('jsonwebtoken')
 exports.getPost = async (req, res, next) => {
     const id = req.params.id;
     try {
-        const post = await postModel.findById({ id });
+        const post = await postModel.findById(id);
         if (!post) {
             return res.status(204).json({
                 msg: 'no post found!'
+            });
+        }
+        if (post.organization.toString() !== req.user.organization.toString()) {
+            return res.status(400).json({
+                msg: 'user doesnot belong to this organization'
             });
         }
         res.status(200).json({
