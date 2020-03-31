@@ -43,6 +43,28 @@ exports.postPost = async (req, res, next) => {
 
 }
 
-exports.patchPost = (req, res, next) => {
-
+exports.patchPost = async (req, res, next) => {
+    const id = req.body.id;
+    const title = req.body.title;
+    const code = req.body.code;
+    const description = req.body.description;
+    let toUpdate = {};
+    toUpdate = title ? { ...toUpdate, title } : toUpdate;
+    toUpdate = code ? { ...toUpdate, code } : toUpdate;
+    toUpdate = description ? { ...toUpdate, description } : toUpdate;
+    try {
+        const post = await postModel.findByIdAndUpdate(id, {
+            ...toUpdate,
+            updatedOn: new Date()
+        });
+        res.status(202).json({
+            msg: 'updated successfully',
+            post
+        })
+    } catch (err) {
+        res.status(500).json({
+            msg: 'Internal problem',
+            err: err.message
+        })
+    }
 }
