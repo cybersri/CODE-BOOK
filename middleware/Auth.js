@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const secret = config.get('SECRET')
 const OrganizationModel = require('../models/Organization.model');
+const UserModel = require('../models/User.model');
 exports.getToken = async (client, isOrg) => {
 
         try {
@@ -22,8 +23,7 @@ exports.user = async (req, res, next) =>{
         try{
             const token = req.headers.authorization.split(' ')[1]
             const {email, isOrg} = jwt.decode(token)
-            if(isOrg){
-                const curUser = await OrganizationModel.findOne({email});
+            const curUser = isOrg?await OrganizationModel.findOne({email}):await UserModel.findOne({email})
                 if(!curUser) {
                     return res.status(401).json({
                         msg: 'Un Authorized'
@@ -41,7 +41,6 @@ exports.user = async (req, res, next) =>{
                         }
                     })
                 }
-            }
         }
         catch(err){
             return res.status(401).json({
