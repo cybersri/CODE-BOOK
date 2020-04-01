@@ -24,6 +24,7 @@ app.use(require('./router/comment'));
 app.use(require('./router/user'));
 app.use(require('./router/profile'));
 app.use(require('./router/suggestion'))
+app.use(require('./router/upVote'))
 
 app.listen(process.env.PORT || PORT, () =>
   console.log(`Server running in PORT : ${PORT}`)

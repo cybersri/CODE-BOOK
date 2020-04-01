@@ -26,10 +26,14 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    organization:{
+    likes: {
+        type: Number,
+        default: 0
+    },
+    organization: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'organization',
-        required:true
+        ref: 'organization',
+        required: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
