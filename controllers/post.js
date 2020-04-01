@@ -68,7 +68,7 @@ exports.patchPost = async (req, res, next) => {
 }
 
 exports.deletePost = async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     try {
         const response = await postModel.findByIdAndDelete(id);
         res.status(202).json({
