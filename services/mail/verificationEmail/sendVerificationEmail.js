@@ -15,7 +15,7 @@ exports.sendVerificationEmail = async (client, isOrg) => {
             isOrg: isOrg,
             action: "verify"
         },
-            secret + client.status, {
+            secret, {
             expiresIn: '1h'
         });
 

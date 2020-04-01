@@ -3,6 +3,7 @@ const config = require('config');
 const userModel = require('../models/User.model');
 const { validationResult } = require('express-validator');
 const organizationModel = require('../models/Organization.model')
+const { sendVerificationEmail } = require('../services/mail/verificationEmail/sendVerificationEmail')
 
 exports.getSignup = (req, res, next) => {
     res.status(200).json({
@@ -34,9 +35,10 @@ exports.postSignup = async (req, res, next) => {
         const salt = await bcrypt.genSalt(config.get('SALT'));
         const hashedPassword = await bcrypt.hash(password, salt);
         const newUser = new userModel({
-            name, email, phone, address, password: hashedPassword, organization:org
+            name, email, phone, address, password: hashedPassword, organization:org, status:0
         });
         await newUser.save();
+        await sendVerificationEmail(newUser, false);
         return res.status(201).json({
             msg: 'User created'
         })
