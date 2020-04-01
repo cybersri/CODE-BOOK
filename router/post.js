@@ -7,6 +7,5 @@ router.post('/post', postPost);
 router.patch('/post', patchPost);
 router.delete('/post', deletePost);
 
-router.post('/comment', postComment);
 
 module.exports = router;
