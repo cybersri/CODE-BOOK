@@ -26,15 +26,19 @@ const suggestionSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    post:{
+    post: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'post',
+        ref: 'post',
         required: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
+    },
+    likes: {
+        type: Number,
+        default: 0
     }
 });
 
