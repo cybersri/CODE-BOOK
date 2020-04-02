@@ -1,5 +1,6 @@
-const bcrypt = require('bcrypt');
-
-bcrypt.genSalt(10).then(salt => {
-    console.log(salt);
-}) 
+const svgCaptcha = require('svg-captcha');
+var captcha = svgCaptcha.create({
+    size: 6,
+    noise: 3
+});
+console.log(captcha);
