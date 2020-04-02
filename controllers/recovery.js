@@ -2,15 +2,16 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 const config = require('config');
 const secret = config.get('SECRET')
-
+const svgCaptcha = require('svg-captcha');
 const OrganizationModel = require('../models/Organization.model');
 const UserModel = require('../models/User.model');
 const { sendPasswordResetMail } = require('../services/mail/recovery/sendPasswordResetMail')
 const { passwordGen } = require('../services/passwordGen')
+const sha256 = require('sha256');
 
 exports.passwordResetMail = async(req, res) =>{
     try{
-        const {email, isOrg} = req.body;
+        const { email, isOrg } = req.body;
         const curUser = isOrg ? await OrganizationModel.findOne({ email }).select('+password') : await UserModel.findOne({ email }).select('+password')
 
         if(curUser){
@@ -74,3 +75,30 @@ exports.recoverAccount = async(req,res,next)=>{
             })
         }
 }
+
+exports.getCaptcha = (req, res) => {
+
+    try {
+        const captcha = svgCaptcha.create({
+            size: 6,
+            noise: 3
+        });
+        const { data, text } = captcha;
+        const hashedText = sha256(text);
+        console.log(text);
+        const token = jwt.sign({
+            captcha: hashedText
+        }, secret, {
+            expiresIn: '15m'
+        });
+        res.status(200).json({
+            token,
+            svg: data
+        });
+    } catch (err) {
+        res.status(500).json({
+            msg: err.message
+        })
+    }  
+}
+
