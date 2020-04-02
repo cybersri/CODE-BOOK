@@ -1,6 +1,8 @@
-const svgCaptcha = require('svg-captcha');
-var captcha = svgCaptcha.create({
-    size: 6,
-    noise: 3
-});
-console.log(captcha);
+const fs = require('fs');
+
+fs.readFile('web-development.jpg', (err, data) => {
+    if(err) {
+         console.log(err);
+    }
+    console.log({data});
+})
