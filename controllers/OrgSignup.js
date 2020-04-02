@@ -24,9 +24,10 @@ exports.postOrgSignup = async (req, res, next) => {
         const salt = await bcrypt.genSalt(config.get('SALT'));
         const hasedPassword = await bcrypt.hash(password, salt);
         const newOrganization = new OrganizationModel({
-            name, email, phone, address, password: hasedPassword
+            name, email, phone, address, password: hasedPassword, status:0
         });
         await newOrganization.save();
+        await sendVerificationEmail(newOrganization, true);
         res.status(201).json({
             msg: 'Organization created'
         });

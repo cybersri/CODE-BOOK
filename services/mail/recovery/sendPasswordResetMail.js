@@ -2,27 +2,24 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const secret = config.get('SECRET');
 const {
-    verificationEmail
-} = require('./verificationEmail')
+    passwordReset
+} = require('./passwordReset')
 
 
 const url = config.get('HOST') + ':' + config.get('PORT')
 
-exports.sendVerificationEmail = async (client, isOrg) => {
+exports.sendPasswordResetMail = async (client, isOrg) => {
     try {
         const token = await jwt.sign({
             email: client.email,
             isOrg: isOrg,
-            action: "verify"
+            action: "reset password"
         },
-            secret, {
-            expiresIn: '1h'
+            secret+client.password, {
+            expiresIn: '15m'
         });
 
-        return await verificationEmail(
-            client.name,
-            client.email,
-            url + '/verifymail/' + token);
+        return await passwordReset(client.email, url+'/recovery/'+token);
     } catch (err) {
         return err;
     }

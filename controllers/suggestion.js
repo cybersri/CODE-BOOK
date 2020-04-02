@@ -32,7 +32,7 @@ exports.postSuggestion = async (req, res, next) => {
         const post = await postModel.findOne({ _id: postId, organization: req.user.organization });
         console.log({ post });
         if (!post) {
-            return res.status(204).json({
+            return res.status(402).json({
                 msg: 'cannot post suggestions'
             });
         }

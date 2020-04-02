@@ -12,15 +12,21 @@ exports.getLogin = (req, res, next) => {
 const Validator = async (model, email, password, res) => {
     try {
         const curUser = await model.findOne({email}).select('+password');
-        // console.log(curUser)
         if(!curUser) {
-            return {code: 402};
+            return {code: 401};
         }
+        if(curUser.status===0){
+            return {code:403,msg:'please verify your email'};
+        }
+        if(curUser.status===2){
+            return {code:403,msg:'Waiting for your organization to accept your request'}
+        }
+        // console.log(curUser)
         const valid = await bcrypt.compare(password, curUser.password);
         if(valid) {
             return {code: 200, curUser};
         }
-        return {code: 402};
+        return {code: 401};
     } catch (err) {
         return {code: 500, msg: err.message};
     }
@@ -36,10 +42,14 @@ exports.postLogin = async (req, res) => {
     }
     switch(result.code)
     {
-        case 402:
-            return res.status(402).json({
+        case 401:
+            return res.status(401).json({
                 msg: 'Invalid cerdentials'
             });
+        case 403:
+            return res.status(403).json({
+                msg: result.msg
+            })
         case 200:
             const token = await getToken(result.curUser, isOrg ? true: false);
             console.log({token})

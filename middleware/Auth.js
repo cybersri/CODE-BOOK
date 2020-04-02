@@ -40,6 +40,7 @@ exports.user = async (req, res, next) => {
         }
         else {
             curUser.password = undefined
+            req.isOrg = isOrg;
             req.user = curUser;
           next();
         }
