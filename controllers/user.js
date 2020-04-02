@@ -57,8 +57,8 @@ exports.setStatus = async(req,res) =>{
                 })
             }
             return res.status(200).json({
-                msg:"user updated",
-                user
+                msg:(action==='activate'?'account activated':'account de-activated'),
+                user:user.email
             })
         }
         else{

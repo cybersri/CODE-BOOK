@@ -17,7 +17,7 @@ const OrganizationSchema = new mongoose.Schema({
         required: true
     },
     address: {
-        type: String,
+        type: JSON,
         unique: true,
         required: true
     },

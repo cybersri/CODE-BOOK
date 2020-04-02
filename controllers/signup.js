@@ -18,8 +18,8 @@ exports.postSignup = async (req, res, next) => {
             errors
         });
     }
-    const { name, email, phone, address, password, organization } = req.body;
     try {
+        const { name, email, phone, address, password, organization } = req.body;
         console.log(organization)
         if (!organization) {
             return res.status(403).json({
@@ -51,8 +51,7 @@ exports.postSignup = async (req, res, next) => {
         }
         return res.status(500).json({
             msg: 'Internal server problem',
-            err: err.message,
-            existUser
+            err: err.message
         })
     }
 }

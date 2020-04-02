@@ -18,6 +18,7 @@ app.use(require('./router/login'));
 app.use(require('./router/signup'));
 app.use(require('./router/mail'));
 app.use(user);
+app.use(require('./router/deleteAccount'));
 app.use(require('./router/newsFeed'));
 app.use(require('./router/post'));
 app.use(require('./router/comment'));
