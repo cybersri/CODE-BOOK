@@ -12,6 +12,9 @@ exports.getLogin = (req, res, next) => {
 const Validator = async (model, email, password, res) => {
     try {
         const curUser = await model.findOne({email}).select('+password');
+        if(!curUser) {
+            return {code: 401};
+        }
         if(curUser.status===0){
             return {code:403,msg:'please verify your email'};
         }
@@ -19,9 +22,6 @@ const Validator = async (model, email, password, res) => {
             return {code:403,msg:'Waiting for your organization to accept your request'}
         }
         // console.log(curUser)
-        if(!curUser) {
-            return {code: 401};
-        }
         const valid = await bcrypt.compare(password, curUser.password);
         if(valid) {
             return {code: 200, curUser};

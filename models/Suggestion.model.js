@@ -35,6 +35,10 @@ const suggestionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
+    },
+    likes: {
+        type: Number,
+        default:0
     }
 });
 
