@@ -65,6 +65,21 @@ exports.validateAddress = (address) =>{
         }
   }
 
+exports.validateBool = (value) =>{
+    if(value===undefined) value = '';
+    let boolErr = '';
+    if(typeof value !== Boolean){
+        if(String(value).toLowerCase().trim()==='true') value = true;
+        else if(String(value).toLowerCase().trim()==='false') value = false;
+        else boolErr = 'only true or false value is allowed'
+    }
+    return{
+        isValid: boolErr===''?true:false,
+        data: value,
+        err:boolErr
+    }
+}
+
 exports.validateNumber = (number, name = 'number', min = 0, max = 0) => {
       if(number===undefined) number=''
     let numErr = '';
@@ -101,6 +116,34 @@ exports.validateEmail = (email,normalize=true) => {
       err: emailErr
     };
   };
+
+  exports.validateText = (text, min, max, uriEncode=false)=>{
+    let Err = '';
+    try {
+        if(typeof text===Object) text = JSON.stringify(text)
+        
+        text = String(text).trim();
+        if(text.length<min){
+            Err = 'this field should have minimum of '+min+' characters';
+        }
+        else if(text.length>max){
+            Err = 'this field should have maximum of '+max+' characters';
+        }
+        if(uriEncode) text = encodeURI(text);
+        return{
+            isValid : Err===''?true:false,
+            data: text,
+            err:Err
+        }
+    } catch (error) {
+        return{
+            isValid:false,
+            data:text,
+            err:error
+        }
+    }
+  }
+
   exports.validateName = (
     name = '',
     type = 'Name',

@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const { getSuggestions, postSuggestion, patchSuggestion, deleteSuggestion } = require('../controllers/suggestion');
-
+const { suggestionVal } = require('../middleware/Validator/suggestion')
 
 router.get('/suggestions/:id', getSuggestions);
-router.post('/suggestions', postSuggestion);
-router.patch('/suggestions', patchSuggestion);
+router.post('/suggestions', suggestionVal, postSuggestion);
+router.patch('/suggestions', suggestionVal, patchSuggestion);
 router.delete('/suggestions/:id', deleteSuggestion )
 
 

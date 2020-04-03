@@ -1,4 +1,4 @@
-const { validateEmail, validateName, validatePassword, validatePhone, validateNumber, validateAddress, simplify } = require('../validations/validators')
+const { validateEmail, validateName, validatePassword, validatePhone, validateAddress, simplify } = require('../../validations/validators')
 
 
 
@@ -18,14 +18,14 @@ exports.orgSignUpVal = (req, res, next) =>{
             next()
         }
         else{
-            res.status(401).json({
+            return res.status(401).json({
                 err:validated.err
             })
         }
 
         }
      catch (error) {
-        res.status(401).json({
+        return res.status(401).json({
             msg:'something went wrong',
             error
         })
@@ -49,14 +49,14 @@ exports.signUpVal = (req,res,next)=>{
             next()
         }
         else{
-            res.status(401).json({
+            return res.status(401).json({
                 err:validated.err
             })
         }
 
         }
      catch (error) {
-        res.status(401).json({
+        return res.status(401).json({
             msg:'something went wrong',
             error
         })
