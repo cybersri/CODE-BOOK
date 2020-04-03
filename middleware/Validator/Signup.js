@@ -1,25 +1,33 @@
-const { validateEmail, validateName, validatePassword, validatePhone, validateAddress, simplify } = require('../../validations/validators')
 
-
+const { filterPaper, validateEmail, validateString, validateAddress, validateNumberLength, validatePassword} = require('filter-paper')
 
 exports.orgSignUpVal = (req, res, next) =>{
     try {
         let { email, name, password, phone, address } = req.body
-        email = validateEmail(email,true);
-        name = validateName(name,'Organization Name', 'alphaWithSpace', 3, 25);
-        password = validatePassword(password);
-        phone = validatePhone(phone);
-        address = validateAddress(address);
-        const validated = simplify({
-            email, name, password, phone, address
+        email = validateEmail({email, normalize:true})
+        name = validateString({
+            value: name,
+            pattern: 'alphaWithSpace',
+            min:4,
+            max:20
         })
-        if(validated.isValid){
-            req.body = validated.data
+        password = validatePassword(password)
+        phone = validateNumberLength({
+            value:phone,
+            name: 'phone number',
+            min:10,
+            max:10
+        })
+        address = validateAddress(address)
+        const filtered = filterPaper({email, name, password, phone, address})
+
+        if(filtered.isValid){
+            req.body = filtered.data
             next()
         }
         else{
             return res.status(401).json({
-                err:validated.err
+                err:filtered.err
             })
         }
 
@@ -35,24 +43,40 @@ exports.orgSignUpVal = (req, res, next) =>{
 exports.signUpVal = (req,res,next)=>{
     try {
         let { email, name, password, phone, address, organization } = req.body
-        email = validateEmail(email,true);
-        name = validateName(name,'User Name', 'alphaWithSpace', 3, 25);
-        password = validatePassword(password);
-        phone = validatePhone(phone);
-        address = validateAddress(address);
-        organization = validateName(organization,'Organization Name', 'alphaWithSpace', 3, 25);
-        const validated = simplify({
-            email, name, password, phone, address, organization
+        email = validateEmail({email, normalize:true})
+        name = validateString({
+            value: name,
+            pattern: 'alphaWithSpace',
+            min:4,
+            max:20
         })
-        if(validated.isValid){
-            req.body = validated.data
+        password = validatePassword(password)
+        phone = validateNumberLength({
+            value:phone,
+            name: 'phone number',
+            min:10,
+            max:10
+        })
+        address = validateAddress(address)
+        organization = validateString({
+            value:organization,
+            name:'organization',
+            pattern:'alphaWithSpace',
+            min:4,
+            max:20
+        })
+        const filtered = filterPaper({email, name, password, phone, address, organization})
+
+        if(filtered.isValid){
+            req.body = filtered.data
             next()
         }
         else{
             return res.status(401).json({
-                err:validated.err
+                err:filtered.err
             })
         }
+
 
         }
      catch (error) {
