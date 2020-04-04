@@ -1,5 +1,5 @@
 const userModel = require('../models/User.model');
-const jwt = require('jsonwebtoken');
+var AWS = require("aws-sdk");
 
 exports.getProfile = async (req, res) => {
     try {
@@ -58,3 +58,29 @@ exports.deleteProfile = async (req, res) => {
         })
     }
 }
+
+exports.updateProfile = (req, res) => {
+
+    let s3bucket = new AWS.S3({
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    region: process.env.REGION
+  });
+  var params = {
+    Bucket: process.env.BUCKET,
+    Key: req.file.originalname,
+    Body: req.file.buffer,
+    ContentType: req.file.mimetype
+  };
+  console.log(s3bucket, params);
+  s3bucket.upload(params, function(err, data) {
+    if (err) {
+      res.status(500).json({ error: true, Message: err });
+    } else {
+        console.log(data);
+        res.status(200).json({
+            msg: 'uploaded successful'
+        })
+    }
+  });
+};
