@@ -1,7 +1,6 @@
 const OrganizationModel = require('../models/Organization.model');
 const bcrypt = require('bcrypt');
 const config = require('config');
-const { validationResult } = require('express-validator')
 const { sendVerificationEmail } = require('../services/mail/verificationEmail/sendVerificationEmail')
 
 exports.getOrgSignup = (req, res, next) => {
@@ -11,12 +10,7 @@ exports.getOrgSignup = (req, res, next) => {
 }
 
 exports.postOrgSignup = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        res.status(422).json({
-            errors
-        });
-    }
+
     const { name, email, address, phone, password } = req.body;
     console.log(name, email)
     req.body.status = 0

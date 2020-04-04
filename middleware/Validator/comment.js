@@ -1,10 +1,13 @@
-const { validateText, simplify } = require('../../validations/validators')
-
+const { validateText } = require('filter-paper')
 exports.commentVal = (req, res, next) =>{
     try {
         let { comment } = req.body
-        comment = validateText(comment, 5, 255 );
-    
+        comment = validateText({
+            value:comment,
+            name:'comment',
+            min:5,
+            max:255
+        })
         if(comment.isValid){
             req.body.comment = comment.data
             next()

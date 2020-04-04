@@ -1,25 +1,38 @@
-const { validateText, simplify } = require('../../validations/validators')
 
-
+const {validateText, filterPaper} = require('filter-paper')
 
 exports.suggestionVal = (req, res, next) =>{
     try {
         let { title, description, code } = req.body
-        title = validateText(title, 5, 40 );
-        description = validateText(description, 5, 255);
-        code = validateText(code, 7, 100000);
-        const validated = simplify({
-            title, description, code
+        title= validateText({
+            value:title,
+            name:'title',
+            min:5,
+            max:40
+        });
+        description = validateText({
+            value: description,
+            name: 'description',
+            min:5,
+            max:255
         })
-        if(validated.isValid){
-            res.body.title = validated.data.title
-            res.body.description = validated.data.description
-            res.body.code = validated.data.code
+        code = validateText({
+            value:code,
+            name:'code',
+            min:7,
+            max:100000
+        })
+        const filtered = filterPaper({title,description,code})
+
+        if(filtered.isValid){
+            res.body.title = filtered.data.title
+            res.body.description = filtered.data.description
+            res.body.code = filtered.data.code
             next()
         }
         else{
             return res.status(401).json({
-                err:validated.err
+                err:filtered.err
             })
         }
 

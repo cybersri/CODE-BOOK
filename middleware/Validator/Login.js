@@ -1,23 +1,23 @@
-const { validateEmail, validateBool, validatePassword, simplify } = require('../../validations/validators')
-
+const { validateEmail, validatePassword, validateBool, filterPaper} = require('filter-paper')
 
 
 exports.loginVal = (req, res, next) =>{
     try {
         let { email, password, isOrg } = req.body
-        email = validateEmail(email,true);
-        password = validatePassword(password);
-        isOrg = validateBool(isOrg);
-        const validated = simplify({
-            email, password, isOrg
-        })
-        if(validated.isValid){
-            req.body = validated.data
+        email = validateEmail({
+            email,
+            normalize: true
+        });
+        password = validatePassword(password)
+        isOrg = validateBool({value:isOrg});
+        const filtered = filterPaper({email, password, isOrg})
+        if(filtered.isValid){
+            req.body = filtered.data
             next()
         }
         else{
             return res.status(401).json({
-                err:validated.err
+                err:filtered.err
             })
         }
 

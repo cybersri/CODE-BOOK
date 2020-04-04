@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const config = require('config');
 const userModel = require('../models/User.model');
-const { validationResult } = require('express-validator');
 const organizationModel = require('../models/Organization.model')
 const { sendVerificationEmail } = require('../services/mail/verificationEmail/sendVerificationEmail')
 
@@ -12,12 +11,6 @@ exports.getSignup = (req, res, next) => {
 }
 
 exports.postSignup = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({
-            errors
-        });
-    }
     try {
         const { name, email, phone, address, password, organization } = req.body;
         console.log(organization)
