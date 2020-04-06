@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('config');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const { MongoDB_Connection } = require('./database/database');
@@ -10,7 +10,7 @@ const PORT = config.get('PORT');
 const app = express();
 MongoDB_Connection();
 
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors());
 dotenv.config();
